@@ -66,13 +66,37 @@ async function run() {
             res.send(result)
         })
 
-        // spicific service based review load api
-        // app.get('/reviews/:_', async(req, res) => {
-        //     const id = req.params._id;
-        //     const query = { _id: ObjectId(id)};
-        //     const reviews = await servicesReviewCollection.find(query);
-        //     res.send(reviews);
-        // })
+        //review data read from database and send client side
+        app.get('/reviews/:_id', async(req, res) => {
+            const id = req.params._id;
+            const query = {_id: ObjectId(id)};
+            const review = await servicesReviewCollection.findOne(query);
+            res.send(review);
+
+        })
+
+        //delete review
+        app.delete('/reviews/:_id', async(req, res) => {
+            const id = req.params._id;
+            const query = { _id: ObjectId(id)};
+            const result = await servicesReviewCollection.deleteOne(query);
+            res.send(result)
+        })
+
+        app.patch('/reviews/:_id', async(req, res) => {
+            const id = req.params._id;
+            const about = req.body.about;
+            const query = { _id: ObjectId(id) };
+            const updatedDoc = {
+                $set: {
+                    about: about
+                }
+            }
+            
+            const result = await servicesReviewCollection.updateOne(query, updatedDoc);
+            res.send(result)
+        })
+
 
         app.get('/reviews', async(req, res) => {
             let query = {};
@@ -80,6 +104,19 @@ async function run() {
                 query = {
                     service: req.query.service
                 }
+            }
+            const cursor = servicesReviewCollection.find(query);
+            const reviews = await cursor.toArray();
+            res.send(reviews);
+        })
+
+        // user based review
+        app.get('/reviews/user', async(req, res) => {
+            let query = {};
+            if(req.query.email) {
+                query = {
+                    email: req.query.email
+                };
             }
             const cursor = servicesReviewCollection.find(query);
             const reviews = await cursor.toArray();
