@@ -31,7 +31,7 @@ async function run() {
         app.get('/topservice', async(req, res) => {
             const query = {};
             const cursor = dentalServicesCollection.find(query);
-            const services = await cursor.limit(3).toArray()
+            const services = await cursor.limit(3).toArray();
             res.send(services);
         })
 
@@ -39,8 +39,8 @@ async function run() {
         app.get('/services', async(req, res) => {
             const query = {};
             const cursor = dentalServicesCollection.find(query);
-            const services = await cursor.toArray()
-            res.send(services);
+            const services = await cursor.toArray();
+            res.send(services.reverse());
         })
 
         //read data from client site and insert to database
