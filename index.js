@@ -66,14 +66,14 @@ async function run() {
             res.send(result)
         })
 
-        //review data read from database and send client side
-        app.get('/reviews/:_id', async(req, res) => {
-            const id = req.params._id;
-            const query = {_id: ObjectId(id)};
-            const review = await servicesReviewCollection.findOne(query);
-            res.send(review);
+        // //review data read from database and send client side
+        // app.get('/reviews/:_id', async(req, res) => {
+        //     const id = req.params._id;
+        //     const query = { _id: ObjectId(id)};
+        //     const review = await servicesReviewCollection.findOne(query);
+        //     res.send(review);
 
-        })
+        // })
 
         //delete review
         app.delete('/reviews/:_id', async(req, res) => {
