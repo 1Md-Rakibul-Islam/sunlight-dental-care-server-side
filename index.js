@@ -50,6 +50,9 @@ async function run() {
             res.send(result);
         })
 
+        // new service based review
+        // /reviews?service=${_id} 
+
         // spicific id based service load api
         app.get('/services/:_id', async(req, res) => {
             const id = req.params._id;
@@ -58,10 +61,17 @@ async function run() {
             res.send(service);
         })
 
+        // spicific id based update load api
+        // app.get('/review/update/:_id', async(req, res) => {
+        //     const id = req.params._id;
+        //     const query = { _id: ObjectId(id)};
+        //     const service = await dentalServicesCollection.findOne(query);
+        //     res.send(service);
+        // })
+
         //review data read from client site and insert to database
         app.post('/reviews', async(req, res) => {
             const review = req.body;
-            console.log(review)
             const result = await servicesReviewCollection.insertOne(review);
             res.send(result)
         })
@@ -75,7 +85,7 @@ async function run() {
             res.send(result)
         })
 
-        app.patch('/reviews/:_id', async(req, res) => {
+        app.patch('/review/update/:_id', async(req, res) => {
             const id = req.params._id;
             const about = req.body.about;
             const query = { _id: ObjectId(id) };
