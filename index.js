@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const { query } = require('express');
 
 require('dotenv').config();
 const app = express();
@@ -85,13 +86,21 @@ async function run() {
             res.send(result)
         })
 
-        app.patch('/review/update/:_id', async(req, res) => {
+        app.get('/review/update/:_id', async(req, res) => {
             const id = req.params._id;
-            const about = req.body.about;
+            const query = { _id: ObjectId(id) };    
+            const result = await servicesReviewCollection.findOne(query);
+            res.send(result)
+        })
+
+        app.patch('/review/update/:_id', async(req, res) => {
+
+            const id = req.params._id;
+            const comment = req.body.comment;
             const query = { _id: ObjectId(id) };
             const updatedDoc = {
                 $set: {
-                    about: about
+                    comment: comment
                 }
             }
             
